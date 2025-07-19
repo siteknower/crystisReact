@@ -1,0 +1,320 @@
+
+import { useEffect, useState, useRef, type SetStateAction } from 'react';
+import { Crystal } from 'crystis-react';
+import './sample2.css';
+
+type user = {
+    Id: string;
+    Name: string;
+    Town: string;
+    Country: string;
+  };
+
+const Sample2 = () => {
+//   const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<user[]>([]);
+  const [currentSortColumn, setCurrentSortColumn] = useState('Id');
+  const [isAscending, setIsAscending] = useState(true);
+  const [direction, setDirection] = useState('ascending');
+  const [optselected, setOptSelected] = useState('optscreen');
+  const [chkselected, setChkSelected] = useState(false);
+
+  //const cs = new Crystal();
+  const csRef = useRef<Crystal>(new Crystal());
+
+  const sortSettingsRef = useRef({ field: 'Id', ascending: true });
+
+  useEffect(() => {
+    let storedUsers = localStorage.getItem('Users');
+    if (storedUsers == '[]') {
+      storedUsers = null;
+    }
+    if (storedUsers) {
+      setUsers(JSON.parse(storedUsers));
+    } else {
+      const defaultUsers = [
+        { Id: 'ABDEN', Name: 'Maria Weiss', Town: 'Berlin', Country: 'Germany' },
+        { Id: 'AXEIS', Name: 'Pedro Alvarez', Town: 'Mexico D.F.', Country: 'Mexico' },
+        { Id: 'BENOI', Name: 'Anna Tóth', Town: 'Szeged', Country: 'Hungary' },
+        { Id: 'CAZLE', Name: 'Jan Eriksson', Town: 'Mannheim', Country: 'Sweden' },
+        { Id: 'DRFOS', Name: 'Giulia Donatelli', Town: 'Milano', Country: 'Italia' },
+      ];
+      setUsers(defaultUsers);
+      localStorage.setItem('Users', JSON.stringify(defaultUsers));
+    }
+
+     // Optional: restore checkbox if saved previously
+    const savedCheck = localStorage.getItem('chkselected');
+    if (savedCheck !== null) {
+      setChkSelected(savedCheck === 'true');
+    }
+
+    // const savedSortColumn = localStorage.getItem('currentSortColumn');
+    // if (savedSortColumn !== null) {
+    //   setCurrentSortColumn(savedSortColumn);
+    // }
+
+    // const savedAscending = localStorage.getItem('isAscending');
+    // if (savedAscending !== null) {
+    //   if (savedAscending=='true'){
+    //     setIsAscending(true);
+    //   }else{
+    //     setIsAscending(false);
+    //   }
+    // }
+
+    //  // ✅ Also update ref to keep it in sync
+    // if (savedSortColumn) {
+    //   sortSettingsRef.current.field = savedSortColumn;
+    // }
+    // if (savedAscending !== null) {
+    //   sortSettingsRef.current.ascending = savedAscending === 'true';
+    // }
+
+    /////////////////////////////////////
+    const savedSortColumn = localStorage.getItem('currentSortColumn');
+    const savedAscending = localStorage.getItem('isAscending');
+  
+    if (savedSortColumn && savedAscending !== null) {
+      sortSettingsRef.current = {
+        field: savedSortColumn,
+        ascending: savedAscending === 'true',
+      };
+      setCurrentSortColumn(savedSortColumn);
+      setIsAscending(savedAscending === 'true');
+      setDirection(savedAscending === 'true' ? 'ascending' : 'descending');
+  
+      // Optional: sort immediately after load
+      // sortTable(savedSortColumn);
+    }
+    
+    
+  }, []);
+
+//   const saveUsersToLocalStorage = (updatedUsers) => {
+//     localStorage.setItem('Users', JSON.stringify(updatedUsers));
+//   };
+
+const saveUsersToLocalStorage = (updatedUsers: user[]) => {
+    localStorage.setItem('Users', JSON.stringify(updatedUsers));
+  };
+
+const sortTable = (column: SetStateAction<string>) => {
+  
+    let newDirection = direction;
+    let ascending = isAscending;
+
+    if (currentSortColumn === column) {
+      ascending = !isAscending;
+      newDirection = ascending ? 'ascending' : 'descending';
+      // csRef.current.tSortDirection = ascending ? '1' : '2';
+      //csRef.current.tSortDirection = ascending ? '1' : '2';
+      
+    } else {
+      ascending = true;
+      newDirection = 'ascending';
+      // csRef.current.tSortDirection = '1';
+      //csRef.current.tSortDirection = '1';
+      // setCurrentSortColumn(column);
+      setCurrentSortColumn(column.toString());
+    }
+
+     // Update sortSettingsRef
+    sortSettingsRef.current = {
+      field: column.toString(),
+      ascending,
+    };
+
+    // if (users.length === 0) {
+    //   console.warn('No users to sort');
+    //   return;
+    // }
+
+    const sortedUsers = [...users].sort((a, b) => {
+      const key = column as keyof user;
+      const valueA = a[key];
+      const valueB = b[key];
+      if (valueA < valueB) return ascending ? -1 : 1;
+      if (valueA > valueB) return ascending ? 1 : -1;
+      return 0;
+    });
+
+    // return;
+
+    setCurrentSortColumn(column);
+    setUsers(sortedUsers);
+    setIsAscending(ascending);
+    setDirection(newDirection);
+    
+    localStorage.setItem('currentSortColumn', column.toString());
+    localStorage.setItem('isAscending', newDirection.toString());
+    
+    // Also update Crystal settings
+  // csRef.current.tSortField1 = column;
+ // csRef.current.tSortDirection = ascending ? '1' : '2';
+};
+
+
+  const addRow = (id: string, name: string, town: string, country: string, resetInputs: { (): void; (): void; }) => {
+    if (id && name && town && country) {
+      const updatedUsers = [...users, { Id: id, Name: name, Town: town, Country: country }];
+      setUsers(updatedUsers);
+      saveUsersToLocalStorage(updatedUsers);
+      resetInputs();
+    } else {
+      alert('All fields are required!');
+    }
+  };
+
+  const deleteRow = (index: number) => {
+    if (window.confirm('Are you sure you want to delete this row?')) {
+      const updatedUsers = [...users];
+      updatedUsers.splice(index, 1);
+      setUsers(updatedUsers);
+      saveUsersToLocalStorage(updatedUsers);
+    }
+  };
+
+  const printReport = () => {
+    const tUsers = [...users];
+    saveUsersToLocalStorage(tUsers);
+  
+    const json = JSON.stringify({ Users: tUsers });
+
+    // const { field, ascending } = sortSettingsRef.current;
+
+    // const sortedUsers = getSortedUsers(); // always sorted
+    // const json = JSON.stringify({ Users: sortedUsers });
+    //const ticks = Date.now()* 10000 + 621355968000000000;
+    // console.log('ticks: ' + ticks.toString);
+    // console.log(ticks );
+
+    csRef.current.tjsonstring = json;
+    csRef.current.tcode = 'DEMO1';
+    csRef.current.tucode = '0000';
+    //let tf = "D:/VBNET04Web/React/crystisreact/public/reports/CustomerReport1.rpt";
+    //csRef.current.trptfilePath = '/reports/CustomerReport1.rpt';
+    //zbog: vite.config.ts  -  base: '/samplesreact/',
+    csRef.current.trptfilePath = '/samplesreact/reports/CustomerReport1.rpt';
+    csRef.current.tSortTableName = 'Users';
+    csRef.current.tSortField1 = sortSettingsRef.current.field;  //field;  // currentSortColumn;
+    csRef.current.tDEST = optselected === 'optscreen' ? '0' : '1';
+    // csRef.current.tSortDirection = isAscending ? '1' : '2';
+    // csRef.current.tSortDirection = ascending ? '1' : '2';
+    csRef.current.tSortDirection = sortSettingsRef.current.ascending ? '1' : '2';
+    csRef.current.tReportFormula = chkselected ? "{Users.Country} = 'Germany'" : '';
+   
+    // csRef.current.tSortField2 = '';
+    // csRef.current.tSortField3 = '';
+    // csRef.current.tSortDirection = '1';  // '1' - ascending,  '1' - descending
+    // csRef.current.tReportFormula = '';  
+    // this.csRef.current.tDEST = '0';  // '0' - on screen,  '1' - on paper
+
+    csRef.current.showReport();
+
+
+  };
+
+  // Input states
+  const [newId, setNewId] = useState('');
+  const [newName, setNewName] = useState('');
+  const [newTown, setNewTown] = useState('');
+  const [newCountry, setNewCountry] = useState('');
+
+  const resetInputs = () => {
+    setNewId('');
+    setNewName('');
+    setNewTown('');
+    setNewCountry('');
+  };
+
+  return (
+    <>
+      <div className="table-container2">
+        <p>Sample2</p>
+        <table border={1} cellPadding={10} cellSpacing={0}>
+          <thead>
+            <tr>
+              <th onClick={() => sortTable('Id')}>Id</th>
+              <th onClick={() => sortTable('Name')}>Name</th>
+              <th onClick={() => sortTable('Town')}>Town</th>
+              <th onClick={() => sortTable('Country')}>Country</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user, i) => (
+              <tr key={i}>
+                <td><input value={user.Id} onChange={e => {
+                  const updated = [...users];
+                  updated[i].Id = e.target.value;
+                  setUsers(updated);
+                }} /></td>
+                <td><input value={user.Name} onChange={e => {
+                  const updated = [...users];
+                  updated[i].Name = e.target.value;
+                  setUsers(updated);
+                }} /></td>
+                <td><input value={user.Town} onChange={e => {
+                  const updated = [...users];
+                  updated[i].Town = e.target.value;
+                  setUsers(updated);
+                }} /></td>
+                <td><input value={user.Country} onChange={e => {
+                  const updated = [...users];
+                  updated[i].Country = e.target.value;
+                  setUsers(updated);
+                }} /></td>
+                <td><button onClick={() => deleteRow(i)}>Delete</button></td>
+              </tr>
+            ))}
+            <tr>
+              <td><input value={newId} onChange={e => setNewId(e.target.value)} /></td>
+              <td><input value={newName} onChange={e => setNewName(e.target.value)} /></td>
+              <td><input value={newTown} onChange={e => setNewTown(e.target.value)} /></td>
+              <td><input value={newCountry} onChange={e => setNewCountry(e.target.value)} /></td>
+              <td><button onClick={() => addRow(newId, newName, newTown, newCountry, resetInputs)}>Add</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div className="groupbox-container">
+        <div className="groupbox-left">
+          <h3>Destination</h3>
+          <label><input type="radio" name="options" value="optscreen" checked={optselected === 'optscreen'} onChange={() => setOptSelected('optscreen')} /> on screen</label>
+          <br />
+          <label><input type="radio" name="options" value="optpaper" checked={optselected === 'optpaper'} onChange={() => setOptSelected('optpaper')} /> on paper</label>
+        </div>
+        <div className="groupbox-right">
+          <h3>Formula</h3>
+          <label>Country = Germany</label><br />
+          <label>
+            <input
+              type="checkbox"
+              checked={chkselected}
+              onChange={e => {
+                setChkSelected(e.target.checked);
+                localStorage.setItem('chkselected', String(e.target.checked));
+              }}
+            />            
+            include formula
+          </label>
+        </div>
+      </div>
+
+      <div className="groupbox-container">
+        <div className="groupbox-left">
+          <h3>Sort</h3>
+          <label>Column:</label> <span className="lbl">{currentSortColumn}</span><br />
+          <label>Direction:</label> <span className="lbl">{direction}</span>
+        </div>
+        <div className="groupbox-right2">
+          <button className="tbtn2" onClick={printReport}>Print</button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Sample2;
