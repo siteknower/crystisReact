@@ -29,9 +29,7 @@ function Sample1() {
         cs.tjsonstring = json;
         cs.tcode = 'DEMO1';
         cs.tucode = '0000';
-        // cs.trptfilePath = '/reports/CustomerReport1.rpt';
-          //zbog: vite.config.ts  -  base: '/samplesreact/',
-          cs.trptfilePath = '/samplesreact/reports/CustomerReport1.rpt';
+          cs.trptfilePath = '/reports/CustomerReport1.rpt';
         cs.tSortTableName = 'Users';
         cs.tSortField1 = 'Name';
     
@@ -44,9 +42,7 @@ function Sample1() {
         cs.tjsonstring = cjsonString;
         cs.tcode = "DEMO1";
         cs.tucode = "0000";
-        //cs.trptfilePath = "/reports/CustomerReport1.rpt"; // assuming file is in /public/reports/
-        //zbog: vite.config.ts  -  base: '/samplesreact/',
-        cs.trptfilePath = '/samplesreact/reports/CustomerReport1.rpt';
+        cs.trptfilePath = '/reports/CustomerReport1.rpt';
 
         try {
           const reportUrl = await cs.getReportUrl();

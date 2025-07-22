@@ -11,7 +11,6 @@ type user = {
   };
 
 const Sample2 = () => {
-//   const [users, setUsers] = useState([]);
   const [users, setUsers] = useState<user[]>([]);
   const [currentSortColumn, setCurrentSortColumn] = useState('Id');
   const [isAscending, setIsAscending] = useState(true);
@@ -43,35 +42,11 @@ const Sample2 = () => {
       localStorage.setItem('Users', JSON.stringify(defaultUsers));
     }
 
-     // Optional: restore checkbox if saved previously
     const savedCheck = localStorage.getItem('chkselected');
     if (savedCheck !== null) {
       setChkSelected(savedCheck === 'true');
     }
 
-    // const savedSortColumn = localStorage.getItem('currentSortColumn');
-    // if (savedSortColumn !== null) {
-    //   setCurrentSortColumn(savedSortColumn);
-    // }
-
-    // const savedAscending = localStorage.getItem('isAscending');
-    // if (savedAscending !== null) {
-    //   if (savedAscending=='true'){
-    //     setIsAscending(true);
-    //   }else{
-    //     setIsAscending(false);
-    //   }
-    // }
-
-    //  // ✅ Also update ref to keep it in sync
-    // if (savedSortColumn) {
-    //   sortSettingsRef.current.field = savedSortColumn;
-    // }
-    // if (savedAscending !== null) {
-    //   sortSettingsRef.current.ascending = savedAscending === 'true';
-    // }
-
-    /////////////////////////////////////
     const savedSortColumn = localStorage.getItem('currentSortColumn');
     const savedAscending = localStorage.getItem('isAscending');
   
@@ -82,18 +57,12 @@ const Sample2 = () => {
       };
       setCurrentSortColumn(savedSortColumn);
       setIsAscending(savedAscending === 'true');
-      setDirection(savedAscending === 'true' ? 'ascending' : 'descending');
-  
-      // Optional: sort immediately after load
-      // sortTable(savedSortColumn);
+      setDirection(savedAscending === 'true' ? 'ascending' : 'descending');  
     }
     
     
   }, []);
 
-//   const saveUsersToLocalStorage = (updatedUsers) => {
-//     localStorage.setItem('Users', JSON.stringify(updatedUsers));
-//   };
 
 const saveUsersToLocalStorage = (updatedUsers: user[]) => {
     localStorage.setItem('Users', JSON.stringify(updatedUsers));
@@ -107,28 +76,17 @@ const sortTable = (column: SetStateAction<string>) => {
     if (currentSortColumn === column) {
       ascending = !isAscending;
       newDirection = ascending ? 'ascending' : 'descending';
-      // csRef.current.tSortDirection = ascending ? '1' : '2';
-      //csRef.current.tSortDirection = ascending ? '1' : '2';
       
     } else {
       ascending = true;
       newDirection = 'ascending';
-      // csRef.current.tSortDirection = '1';
-      //csRef.current.tSortDirection = '1';
-      // setCurrentSortColumn(column);
       setCurrentSortColumn(column.toString());
     }
 
-     // Update sortSettingsRef
     sortSettingsRef.current = {
       field: column.toString(),
       ascending,
     };
-
-    // if (users.length === 0) {
-    //   console.warn('No users to sort');
-    //   return;
-    // }
 
     const sortedUsers = [...users].sort((a, b) => {
       const key = column as keyof user;
@@ -148,11 +106,7 @@ const sortTable = (column: SetStateAction<string>) => {
     
     localStorage.setItem('currentSortColumn', column.toString());
     localStorage.setItem('isAscending', newDirection.toString());
-    
-    // Also update Crystal settings
-  // csRef.current.tSortField1 = column;
- // csRef.current.tSortDirection = ascending ? '1' : '2';
-};
+    };
 
 
   const addRow = (id: string, name: string, town: string, country: string, resetInputs: { (): void; (): void; }) => {
@@ -181,41 +135,21 @@ const sortTable = (column: SetStateAction<string>) => {
   
     const json = JSON.stringify({ Users: tUsers });
 
-    // const { field, ascending } = sortSettingsRef.current;
-
-    // const sortedUsers = getSortedUsers(); // always sorted
-    // const json = JSON.stringify({ Users: sortedUsers });
-    //const ticks = Date.now()* 10000 + 621355968000000000;
-    // console.log('ticks: ' + ticks.toString);
-    // console.log(ticks );
-
     csRef.current.tjsonstring = json;
     csRef.current.tcode = 'DEMO1';
     csRef.current.tucode = '0000';
-    //let tf = "D:/VBNET04Web/React/crystisreact/public/reports/CustomerReport1.rpt";
-    //csRef.current.trptfilePath = '/reports/CustomerReport1.rpt';
-    //zbog: vite.config.ts  -  base: '/samplesreact/',
-    csRef.current.trptfilePath = '/samplesreact/reports/CustomerReport1.rpt';
+    csRef.current.trptfilePath = '/reports/CustomerReport1.rpt';
     csRef.current.tSortTableName = 'Users';
-    csRef.current.tSortField1 = sortSettingsRef.current.field;  //field;  // currentSortColumn;
+    csRef.current.tSortField1 = sortSettingsRef.current.field;  
     csRef.current.tDEST = optselected === 'optscreen' ? '0' : '1';
-    // csRef.current.tSortDirection = isAscending ? '1' : '2';
-    // csRef.current.tSortDirection = ascending ? '1' : '2';
     csRef.current.tSortDirection = sortSettingsRef.current.ascending ? '1' : '2';
     csRef.current.tReportFormula = chkselected ? "{Users.Country} = 'Germany'" : '';
-   
-    // csRef.current.tSortField2 = '';
-    // csRef.current.tSortField3 = '';
-    // csRef.current.tSortDirection = '1';  // '1' - ascending,  '1' - descending
-    // csRef.current.tReportFormula = '';  
-    // this.csRef.current.tDEST = '0';  // '0' - on screen,  '1' - on paper
-
+  
     csRef.current.showReport();
 
 
   };
 
-  // Input states
   const [newId, setNewId] = useState('');
   const [newName, setNewName] = useState('');
   const [newTown, setNewTown] = useState('');

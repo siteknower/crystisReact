@@ -15,7 +15,7 @@ type DummyItem = {
   Text1: string;
 };
 
-const Sample3: React.FC = () => {
+const SampleR3: React.FC = () => {
   const [invItems, setInvItems] = useState<InvItem[]>([]);
   const [dummy, setDummy] = useState<DummyItem[]>([{ Text1: 'Phoenix inc.' }]);
   const csRef = useRef(new Crystal());
@@ -40,7 +40,7 @@ const Sample3: React.FC = () => {
     csRef.current.tjsonstring = jsonData;
     csRef.current.tcode = 'DEMO1';
     csRef.current.tucode = '0000';
-    csRef.current.trptfilePath = '/samplesreact/reports/InvoiceReport.rpt';
+    csRef.current.trptfilePath = '/reports/InvoiceReport.rpt';
     csRef.current.tDEST = '0';
     csRef.current.showReport();
   };
@@ -94,5 +94,5 @@ function generateUUID(): string {
   });
 }
 
-export default Sample3;
+export default SampleR3;
 
