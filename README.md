@@ -1,4 +1,4 @@
-# crystisReact Example Application
+# crystis React Example Application
 
 This repository demonstrates how to integrate **Crystal Reports into React applications** using `crystis` for React — a groundbreaking solution for React developers who want to embed professional Crystal Reports directly in their web apps.
 
