@@ -16,6 +16,7 @@ function App() {
             <hr></hr>
           </nav>
           <Routes>
+              <Route path="/" element={<Sample1 />} />
               <Route path="/sample1" element={<Sample1 />} />
               <Route path="/sample2" element={<Sample2 />} />
               <Route path="/sample3" element={<Sample3 />} />
