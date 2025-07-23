@@ -132,11 +132,11 @@ export default defineConfig({
     AddType application/octet-stream .rpt
 ```
 ### **NGINX**: Add the following to your `mime.types` file or NGINX configuration:
-    ```
+```
     types {
         application/octet-stream rpt;
     }
-    ```
+```
 
 **Note:** While some servers may handle `.rpt` files without additional configuration, explicitly adding the MIME type ensures compatibility and avoids potential issues.
 
