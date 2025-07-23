@@ -49,7 +49,7 @@ Getting Started
    npm install crystis-react
    ```
 
-4. Place your .rpt files (e.g., CustomerReport1.rpt, InvoiceReport.rpt) in the asset/reports folder.
+4. Place your .rpt files (e.g., CustomerReport1.rpt, InvoiceReport.rpt) in the public/reports folder.
 
 5. Use the following demo codes for testing:
 
