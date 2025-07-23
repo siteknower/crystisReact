@@ -63,7 +63,7 @@ Place your `.rpt` files (e.g., `CustomerReport1.rpt`, `InvoiceReport.rpt`) in:
 
 📄 Quick Start Example
 -------------
- ```ts
+ ```
 // Sample2.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import { Crystal } from 'crystis';
@@ -110,7 +110,7 @@ If `.rpt` files are not loading properly, make sure your server knows how to ser
 Vite (recommended for React)
 -------------
 In `vite.config.ts` (if needed, rarely required):
- ``` ts
+ ```
 import { defineConfig } from 'vite';
 export default defineConfig({
   base: '/',
@@ -128,11 +128,11 @@ export default defineConfig({
     </configuration>
     ```
 ### **Apache**: Add the following to your server configuration or `.htaccess` file:
-    ```apache
+    ```
     AddType application/octet-stream .rpt
     ```
 ### **NGINX**: Add the following to your `mime.types` file or NGINX configuration:
-    ```nginx
+    ```
     types {
         application/octet-stream rpt;
     }
