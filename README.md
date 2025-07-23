@@ -12,15 +12,23 @@ You **do not need Crystal Reports or Crystal Reports Runtime installed** on your
 
 📺 **Live Demo of crystisReact** [here](https://www.siteknower.com/samplesreact).
 
-Features
+🔧 Features
 --------
-- Seamlessly display Crystal Reports in React apps.
+- View Crystal Reports in React apps.
 - Works without Crystal Reports or runtime installed.
 - Fully client-side integration.
+- Uses Crystis for report rendering
 - Multiple sample components included:
   1. 📄 **Basic Report** (e.g., Customer list)
   3. 🔍 **Sorted and Filtered Report**
   4. 🧾 **Invoice Report** with master-detail data
+
+📦 Technologies
+--------
+- React (with Vite)
+- TypeScript
+- Crystis (Crystal Reports for React)
+- Uses Crystis for report rendering
 
 Getting Started
 ---------------
