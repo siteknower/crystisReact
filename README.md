@@ -118,7 +118,7 @@ export default defineConfig({
  ```
 
  ### **IIS**: Add the `.rpt` MIME type to the `web.config` file:
-    ```xml
+```
     <configuration>
       <system.webServer>
         <staticContent>
@@ -126,7 +126,7 @@ export default defineConfig({
         </staticContent>
       </system.webServer>
     </configuration>
-    ```
+```
 ### **Apache**: Add the following to your server configuration or `.htaccess` file:
 ```
     AddType application/octet-stream .rpt
@@ -143,9 +143,9 @@ export default defineConfig({
    
 🏃 Running the Application
 -----------------------
- ```
+```
 npm run dev
- ```
+```
 Start the development server:
    ng serve
 
