@@ -128,9 +128,9 @@ export default defineConfig({
     </configuration>
     ```
 ### **Apache**: Add the following to your server configuration or `.htaccess` file:
-    ```
+```
     AddType application/octet-stream .rpt
-    ```
+```
 ### **NGINX**: Add the following to your `mime.types` file or NGINX configuration:
     ```
     types {
