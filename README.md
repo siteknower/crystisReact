@@ -49,20 +49,9 @@ Getting Started
    npm install crystis-react
    ```
 
-Setting Up crystis in a New Angular Project
--------------------------------------------
-1. Add the following to your app.config.ts:
-   
-   import { provideHttpClient } from '@angular/common/http';  
-   export const appConfig: ApplicationConfig = {
-       providers: [
-         provideHttpClient(),
-       ]
-   };
+4. Place your .rpt files (e.g., CustomerReport1.rpt, InvoiceReport.rpt) in the asset/reports folder.
 
-3. Place your .rpt files (e.g., CustomerReport1.rpt, InvoiceReport.rpt) in the asset/reports folder.
-
-4. Use the following demo codes for testing:
+5. Use the following demo codes for testing:
 
    this.cs.tcode = "DEMO1";  // your account code  
    this.cs.tucode = "0000";  // your user code
