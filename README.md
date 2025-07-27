@@ -174,6 +174,10 @@ csRef.current.tSortField1 = 'Country';
 csRef.current.tSortDirection = '1'; // 1 = ascending, 2 = descending
  ```
 
+Video Tutorial
+-----------------------
+[How to Show Crystal Reports in Angular](https://www.youtube.com/watch?v=3czleeJ79OI&t=16s)
+
 Repository Usage
 ----------------
 Use this repository to:
