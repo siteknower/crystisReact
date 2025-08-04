@@ -1,0 +1,14 @@
+#root {
+  max-width: none;       /* Remove width limit */
+  margin: 0;             /* Remove horizontal centering */
+  padding: 1rem;         /* Optional, for spacing */
+  text-align: left;      /* Align text to the left */
+}
+
+.app-layout {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;  /* full viewport height */
+}
+
