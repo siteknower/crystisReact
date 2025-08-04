@@ -72,42 +72,52 @@ Place your `.rpt` files (e.g., `CustomerReport1.rpt`, `InvoiceReport.rpt`) in:
 📄 Quick Start Example
 -------------
  ```
-// Sample2.tsx
-import React, { useEffect, useRef, useState } from 'react';
-import { Crystal } from 'crystis';
+// Sample2.jsx
+import { useEffect, useState } from 'react';
+import { Crystal } from 'crystis-react';
+import './sample1.css';
 
-const Sample2 = () => {
-  const [users, setUsers] = useState([
-    { Id: 'ABDEN', Name: 'Maria Weiss', Town: 'Berlin', Country: 'Germany' },
-    { Id: 'AXEIS', Name: 'Pedro Alvarez', Town: 'México D.F.', Country: 'Mexico' },
-    { Id: 'BENOI', Name: 'Anna Tóth', Town: 'Szeged', Country: 'Hungary' },
-    { Id: 'CAZLE', Name: 'Jan Eriksson', Town: 'Mannheim', Country: 'Sweden' },
-    { Id: 'DRFOS', Name: 'Giulia Donatelli', Town: 'Milano', Country: 'Italia' }
-  ]);
+function Sample2() {
 
-  const csRef = useRef<Crystal>(new Crystal());
+    const [users, setUsers] = useState([]);
 
-  const showReport = () => {
-    const jsonData = JSON.stringify({ Users: users });
+    useEffect(() => {
+        setUsers([
+          { Id: 'ABDEN', Name: 'Maria Weiss', Town: 'Berlin', Country: 'Germany' },
+          { Id: 'AXEIS', Name: 'Pedro Alvarez', Town: 'México D.F.', Country: 'Mexico' },
+          { Id: 'BENOI', Name: 'Anna Tóth', Town: 'Szeged', Country: 'Hungary' },
+          { Id: 'CAZLE', Name: 'Jan Eriksson', Town: 'Mannheim', Country: 'Sweden' },
+          { Id: 'DRFOS', Name: 'Giulia Donatelli', Town: 'Milano', Country: 'Italia' },
+        ]);
+      }, []);
 
-    csRef.current.tjsonstring = jsonData;
-    csRef.current.tcode = 'DEMO1';
-    csRef.current.tucode = '0000';
-    csRef.current.trptfilePath = '/reports/CustomerReport1.rpt';
-    csRef.current.tDEST = '0'; // 0 = screen, 1 = printer
+    const cs = new Crystal();
 
-    csRef.current.showReport();
-  };
+    const showReport = () => {    
+        const json = JSON.stringify({ Users: users });
+        cs.tjsonstring = json;
+        cs.tcode = 'DEMO1';
+        cs.tucode = '0000';
+         cs.trptfilePath = '/reports/CustomerReport1.rpt';
+        cs.tSortTableName = 'Users';
+        cs.tSortField1 = 'Name';
+    
+        cs.showReport();
+      };
 
-  return (
-    <div>
-      <h2>Crystal Report in React</h2>
-      <button onClick={showReport}>Show Report</button>
-    </div>
-  );
-};
+    return (
+      <>
+      <p>Sample1</p>
+            <br/>
+            <button className="tbn1" onClick={showReport}>Print</button>  &nbsp;
+        </div>
+        </> 
+    );
+  }
 
 export default Sample2;
+
+
  ```
 
 📂 Configuring MIME Types for .rpt Files
